@@ -1,0 +1,19 @@
+﻿# Build results
+bin/
+obj/
+
+# IDE
+.idea/
+.vs/
+*.sln.iml
+
+# User-specific files
+*.user
+*.userosscache
+
+# Dependencies
+wwwroot/lib/
+
+# OS
+.DS_Store
+Thumbs.db
