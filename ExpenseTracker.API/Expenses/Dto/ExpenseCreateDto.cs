@@ -1,6 +1,6 @@
-﻿namespace ExpenseTracker.API.Expense.Dto;
+﻿namespace ExpenseTracker.API.Expenses.Dto;
 
-public record ExpenseUpdateDto(
+public record ExpenseCreateDto(
         string ExpenseName,
         decimal Amount,
         DateOnly Date

@@ -1,16 +1,26 @@
-using ExpenseTracker.API.Expense;
+using ExpenseTracker.API.Data;
+using ExpenseTracker.API.Expenses.Repository;
+using ExpenseTracker.API.Expenses.Service;
+using Microsoft.EntityFrameworkCore;
+
 
 var builder = WebApplication.CreateBuilder(args);
+
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+builder.Services.AddDbContext<ExpenseContext>(options => 
+    options.UseSqlite(connectionString));
+
 // Allows Controller Usage
 builder.Services.AddControllers();
-// When something asks for IExpenseService, create and provide ExpenseService
-builder.Services.AddSingleton<IExpenseService, ExpenseService>();
+
+builder.Services.AddScoped<IExpenseService, ExpenseService>();
+builder.Services.AddScoped<IExpenseRepository, ExpenseRepository>();
 
 var app = builder.Build();
-// Automatically redirects all HTTPS requests to their HTTP equivalents
+
 app.UseHttpsRedirection();
 app.UseAuthorization();
-// When using class-based controller, need to call this to make the endpoints reachable
 app.MapControllers();
 
 app.Run();
