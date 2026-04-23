@@ -13,6 +13,7 @@ obj/
 
 # Dependencies
 wwwroot/lib/
+wwwroot/
 
 # OS
 .DS_Store
@@ -25,3 +26,5 @@ Thumbs.db
 *.sqlite
 *.sqlite-wal
 *.sqlite-shm
+
+notes.txt
