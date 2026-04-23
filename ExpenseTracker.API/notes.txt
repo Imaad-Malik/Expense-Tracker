@@ -1,5 +1,0 @@
-﻿// Need to make:
-    // ExpenseCreateDto
-    // ExpenseUpdateDto
-    ExpenseResponseDto
-        - Expense is fine for now, add later once DB is setup and ID is auto generated
