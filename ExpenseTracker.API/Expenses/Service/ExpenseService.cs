@@ -24,25 +24,26 @@ public class ExpenseService : IExpenseService
         return expense is null ? null : MapToDto(expense);
     }
 
-    public async Task<ExpenseResponseDto> Create(ExpenseCreateDto dto)
+    public async Task<ExpenseResponseDto> Create(ExpenseCreateDto createdExpense)
     {
-        var expense = new Expense(dto.ExpenseName, dto.Amount, dto.Date);
+        var expense = new Expense(createdExpense.ExpenseName, createdExpense.Amount, createdExpense.Date);
         var created = await _repository.CreateAsync(expense);
         return MapToDto(created);
     }
 
-    public async Task<ExpenseResponseDto?> Update(ExpenseUpdateDto dto, int id)
+    public async Task<ExpenseResponseDto?> Update(ExpenseUpdateDto updatedExpense, int id)
     {
         var expense = await _repository.GetByIdAsync(id);
         if (expense is null)
             return null;
 
-        var updatedExpense = new Expense(dto.ExpenseName, dto.Amount, dto.Date);
-        var result = await _repository.UpdateAsync(updatedExpense);
-        if (result is null)
-            return null;
+        expense.ExpenseName = updatedExpense.ExpenseName;
+        expense.Amount = updatedExpense.Amount;
+        expense.Date = updatedExpense.Date;
+
+        await _repository.UpdateAsync(expense);
         
-        return MapToDto(result);
+        return MapToDto(expense);
     }
 
     public async Task<bool> Delete(int id)
