@@ -54,10 +54,12 @@ public class ExpenseService : IExpenseService
     {
         return await _repository.DeleteAsync(id);
     }
-
+    
+    // Mapper for now
     private ExpenseResponseDto MapToDto(Expense expense)
     {
         return new ExpenseResponseDto(
+            expense.UserId,
             expense.Id,
             expense.ExpenseName,
             expense.Amount,
