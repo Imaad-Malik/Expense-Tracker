@@ -1,5 +1,6 @@
 ﻿using ExpenseTracker.API.Expenses;
 using ExpenseTracker.API.Expenses.Dto;
+using ExpenseTracker.API.Users;
 using Microsoft.EntityFrameworkCore;
 
 namespace ExpenseTracker.API.Data;
@@ -7,6 +8,7 @@ namespace ExpenseTracker.API.Data;
 public class ExpenseContext : DbContext
 {
     public DbSet<Expense> Expenses { get; set; }
+    public DbSet<User> Users { get; set; }
 
     public ExpenseContext(DbContextOptions<ExpenseContext> options) : base(options)
     {

@@ -8,7 +8,7 @@ public interface IExpenseService
     // ? means method can return null
     // It's possible no expense is found by that id, so ? is used for that possibility
     Task<ExpenseResponseDto?> GetByIdAsync(int id);
-    Task<ExpenseResponseDto> Create(ExpenseCreateDto createdExpense);
+    Task<ExpenseResponseDto> Create(ExpenseCreateDto expense);
     Task<ExpenseResponseDto?> Update(ExpenseUpdateDto updatedExpense, int id);
     Task<bool> Delete(int id);
 }

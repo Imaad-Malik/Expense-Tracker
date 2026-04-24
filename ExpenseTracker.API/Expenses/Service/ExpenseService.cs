@@ -24,10 +24,14 @@ public class ExpenseService : IExpenseService
         return expense is null ? null : MapToDto(expense);
     }
 
-    public async Task<ExpenseResponseDto> Create(ExpenseCreateDto createdExpense)
+    public async Task<ExpenseResponseDto> Create(ExpenseCreateDto expense)
     {
-        var expense = new Expense(createdExpense.ExpenseName, createdExpense.Amount, createdExpense.Date);
-        var created = await _repository.CreateAsync(expense);
+        var createdExpense = new Expense(
+            expense.ExpenseName,
+            expense.Amount,
+            expense.Date,
+            expense.UserId);
+        var created = await _repository.CreateAsync(createdExpense);
         return MapToDto(created);
     }
 
