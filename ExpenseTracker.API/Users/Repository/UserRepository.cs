@@ -1,4 +1,5 @@
 using ExpenseTracker.API.Data;
+using ExpenseTracker.API.Expenses;
 using Microsoft.EntityFrameworkCore;
 
 namespace ExpenseTracker.API.Users.Repository;
@@ -50,6 +51,11 @@ public class UserRepository : IUserRepository
         await _context.SaveChangesAsync();
         return true;
     }
-    
-    
+
+    public async Task<List<Expense>> GetExpensesByUserId(int userId)
+    {
+        return await _context.Expenses
+            .Where(e => e.UserId == userId)
+            .ToListAsync();
+    }
 }

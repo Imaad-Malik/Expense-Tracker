@@ -1,3 +1,5 @@
+using ExpenseTracker.API.Expenses;
+using ExpenseTracker.API.Expenses.Dto;
 using ExpenseTracker.API.Users.Dto;
 using ExpenseTracker.API.Users.Repository;
 
@@ -57,6 +59,19 @@ public class UserService : IUserService
     public async Task<bool> DeleteAsync(int id)
     {
         return await _repository.DeleteUserByIdAsync(id);
+    }
+
+    public async Task<List<ExpenseResponseDto>> GetExpensesAsync(int userId)
+    {
+        var expenses = await _repository.GetExpensesByUserId(userId);
+
+        return expenses.Select(e => new ExpenseResponseDto(
+            e.UserId,
+            e.Id,
+            e.ExpenseName,
+            e.Amount,
+            e.Date
+        )).ToList();
     }
     
 

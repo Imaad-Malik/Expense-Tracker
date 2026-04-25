@@ -1,4 +1,6 @@
 using ExpenseTracker.API.Data;
+using ExpenseTracker.API.Expenses;
+using ExpenseTracker.API.Expenses.Dto;
 using ExpenseTracker.API.Users.Dto;
 using ExpenseTracker.API.Users.Service;
 using Microsoft.AspNetCore.Mvc;
@@ -29,6 +31,13 @@ public class UserController : ControllerBase
     {
         var user = await _service.GetUserByIdAsync(id);
         return Ok(user);
+    }
+
+    [HttpGet("{userId}/expenses")]
+    public async Task<ActionResult<List<ExpenseResponseDto>>> GetExpensesByUserId(int userId)
+    {
+        var expenses = await _service.GetExpensesAsync(userId);
+        return Ok(expenses);
     }
     
     [HttpPost]
