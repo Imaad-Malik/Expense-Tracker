@@ -12,4 +12,5 @@ public interface IUserService
     public Task<UserResponseDto?> UpdateUserAsync(UserUpdateDto updatedUser, int id);
     public Task<bool> DeleteAsync(int id);
     public Task<List<ExpenseResponseDto>> GetExpensesAsync(int userId);
+    public Task<ExpenseResponseDto> CreateExpenseByUserIdAsync(ExpenseCreateDto dto, int userId);
 }

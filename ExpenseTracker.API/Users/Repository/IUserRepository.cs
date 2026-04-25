@@ -10,4 +10,5 @@ public interface IUserRepository
     public Task<User> UpdateUserAsync(User user);
     public Task<bool> DeleteUserByIdAsync(int id);
     public Task<List<Expense>> GetExpensesByUserId(int userId);
+    public Task<Expense> CreateExpenseAsync(Expense expense);
 }

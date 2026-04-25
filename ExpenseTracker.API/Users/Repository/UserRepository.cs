@@ -24,7 +24,14 @@ public class UserRepository : IUserRepository
     {
         return await _context.Users.FirstOrDefaultAsync(e => e.Id == id);
     }
-    
+
+    public async Task<Expense> CreateExpenseAsync(Expense expense)
+    {
+        _context.Expenses.Add(expense);
+        await _context.SaveChangesAsync();
+        return expense;
+    }
+
     // CREATE USER 
     public async Task<User> CreateUserAsync(User user)
     {

@@ -39,6 +39,13 @@ public class UserController : ControllerBase
         var expenses = await _service.GetExpensesAsync(userId);
         return Ok(expenses);
     }
+
+    [HttpPost("{userId}/expenses")]
+    public async Task<ActionResult<ExpenseResponseDto>> CreateExpenseByUserId(ExpenseCreateDto dto, int userId)
+    {
+        var expense = await _service.CreateExpenseByUserIdAsync(dto, userId);
+        return Ok(expense);
+    }
     
     [HttpPost]
     public async Task<ActionResult<UserResponseDto>> CreateUser(UserCreateDto user)

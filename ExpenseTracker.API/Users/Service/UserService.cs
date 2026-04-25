@@ -29,6 +29,28 @@ public class UserService : IUserService
         
         return MapToDto(user);
     }
+
+    public async Task<ExpenseResponseDto> CreateExpenseByUserIdAsync(ExpenseCreateDto dto, int userId)
+    {
+        var user = await _repository.GetUserByIdAsync(userId);
+        
+        var newExpense = new Expense(
+            dto.ExpenseName,
+            dto.Amount,
+            dto.Date,
+            dto.UserId
+        );
+        
+        var expense = await _repository.CreateExpenseAsync(newExpense);
+
+        return new ExpenseResponseDto(
+                expense.UserId,
+                expense.Id,
+                expense.ExpenseName,
+                expense.Amount,
+                expense.Date
+        );
+    }
     
     // CREATE USER
     public async Task<UserResponseDto> CreateUserAsync(UserCreateDto user)
