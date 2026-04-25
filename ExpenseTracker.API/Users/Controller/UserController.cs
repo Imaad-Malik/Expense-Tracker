@@ -1,5 +1,6 @@
 using ExpenseTracker.API.Data;
 using ExpenseTracker.API.Users.Dto;
+using ExpenseTracker.API.Users.Service;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,41 +10,45 @@ namespace ExpenseTracker.API.Users.Controller;
 [Route("users")]
 public class UserController : ControllerBase
 {
-    public readonly ExpenseContext _context;
+    private readonly IUserService _service;
 
-    public UserController(ExpenseContext context)
+    public UserController(IUserService service)
     {
-        _context = context;
+        _service = service;
     }
 
     [HttpGet]
-    // TEST VERSION add dto later 
-    public async Task<IActionResult> GetUsers()
+    public async Task<ActionResult<List<UserResponseDto>>> GetUsers()
     {
-        var users = await _context.Users
-            .Select(u => new UserResponseDto
-            {
-                Id = u.Id,
-                Email = u.Email
-            })
-            .ToListAsync();
-
+        var users = await _service.GetAllUsersAsync();
         return Ok(users);
     }
-    
-    // TESTING
-    [HttpPost]
-    public async Task<IActionResult> CreateUser(UserCreateDto user)
+
+    [HttpGet("{id}")]
+    public async Task<ActionResult<UserResponseDto>> GetUserById(int id)
     {
-        var newUser = new User
-        {
-            Email = user.Email,
-            PasswordHash = user.PasswordHash
-        };
-
-        _context.Users.Add(newUser);
-        await _context.SaveChangesAsync();
-
+        var user = await _service.GetUserByIdAsync(id);
         return Ok(user);
+    }
+    
+    [HttpPost]
+    public async Task<ActionResult<UserResponseDto>> CreateUser(UserCreateDto user)
+    {
+        var newUser = await _service.CreateUserAsync(user);
+        return Ok(newUser);
+    }
+
+    [HttpPut("{id}")]
+    public async Task<ActionResult<UserResponseDto>> UpdateUser(UserUpdateDto user, int id)
+    {
+        var updatedUser = await _service.UpdateUserAsync(user, id);
+        return Ok(updatedUser);
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<ActionResult<UserResponseDto>> DeleteUser(int id)
+    {
+        var deletedUser = await _service.DeleteAsync(id);
+        return Ok(deletedUser);
     }
 }

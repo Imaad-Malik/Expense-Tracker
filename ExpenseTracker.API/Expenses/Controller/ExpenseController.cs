@@ -9,7 +9,7 @@ namespace ExpenseTracker.API.Expenses.Controller;
 [Route("[controller]")]
 public class ExpenseController : Microsoft.AspNetCore.Mvc.Controller
 {
-    private IExpenseService _expenseService;
+    private readonly IExpenseService _expenseService;
 
     public ExpenseController(IExpenseService expenseService)
     {

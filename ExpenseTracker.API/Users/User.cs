@@ -9,4 +9,10 @@ public class User
     public string PasswordHash { get; set; }
 
     public List<Expense> Expenses { get; set; }= new();
+
+    public User(string email, string passwordHash)
+    {
+        Email = email;
+        PasswordHash = passwordHash;
+    }
 }

@@ -1,6 +1,4 @@
-﻿using ExpenseTracker.API.Expenses.Dto;
-
-namespace ExpenseTracker.API.Expenses.Repository;
+﻿namespace ExpenseTracker.API.Expenses.Repository;
 
 public interface IExpenseRepository
 {

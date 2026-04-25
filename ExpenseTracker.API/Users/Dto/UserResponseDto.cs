@@ -1,7 +1,7 @@
 namespace ExpenseTracker.API.Users.Dto;
 
-public class UserResponseDto
-{
-    public int Id { get; set; }
-    public string Email { get; set; }
-}
+public record UserResponseDto(
+        int Id,
+        string Email,
+        string PasswordHash
+    );

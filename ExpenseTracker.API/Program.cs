@@ -1,6 +1,8 @@
 using ExpenseTracker.API.Data;
 using ExpenseTracker.API.Expenses.Repository;
 using ExpenseTracker.API.Expenses.Service;
+using ExpenseTracker.API.Users.Repository;
+using ExpenseTracker.API.Users.Service;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -16,6 +18,8 @@ builder.Services.AddControllers();
 
 builder.Services.AddScoped<IExpenseService, ExpenseService>();
 builder.Services.AddScoped<IExpenseRepository, ExpenseRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 var app = builder.Build();
 
