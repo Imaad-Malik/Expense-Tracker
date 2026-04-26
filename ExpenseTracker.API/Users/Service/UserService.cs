@@ -78,6 +78,21 @@ public class UserService : IUserService
             expense.Date
         );
     }
+
+    public async Task<bool> DeleteExpenseByUserIdAsync(int expenseId, int userId)
+    {
+        var user = await _repository.GetUserByIdAsync(userId);
+        if (user == null) return false;
+        var expense = await _repository.GetExpenseByIdAsync(expenseId);
+        if (expense == null) return false;
+
+        if (user.Id != expense.UserId)
+        {
+            return false;
+        }
+
+        return await _repository.DeleteExpenseByIdAsync(expenseId);
+    }
     
     public async Task<UserResponseDto> CreateUserAsync(UserCreateDto user)
     {

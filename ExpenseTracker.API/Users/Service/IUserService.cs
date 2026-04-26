@@ -14,4 +14,5 @@ public interface IUserService
     public Task<List<ExpenseResponseDto>> GetExpensesAsync(int userId);
     public Task<ExpenseResponseDto> CreateExpenseByUserIdAsync(ExpenseCreateDto dto, int userId);
     public Task<ExpenseResponseDto?> UpdateExpenseByUserIdAsync(ExpenseUpdateDto dto, int userId, int expenseId);
+    public Task<bool> DeleteExpenseByUserIdAsync(int expenseId, int userId);
 }

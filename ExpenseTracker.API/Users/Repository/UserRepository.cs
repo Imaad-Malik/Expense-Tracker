@@ -44,6 +44,16 @@ public class UserRepository : IUserRepository
         return expense;
     }
 
+    public async Task<bool> DeleteExpenseByIdAsync(int id)
+    {
+        var expense = await _context.Expenses.FirstOrDefaultAsync(e => e.Id == id);
+        if (expense == null) return false;
+        
+        _context.Expenses.Remove(expense);
+        await _context.SaveChangesAsync();
+        return true;
+    }
+
     // CREATE USER 
     public async Task<User> CreateUserAsync(User user)
     {

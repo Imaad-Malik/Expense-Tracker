@@ -13,4 +13,5 @@ public interface IUserRepository
     public Task<List<Expense>> GetExpensesByUserId(int userId);
     public Task<Expense> CreateExpenseAsync(Expense expense);
     public Task<Expense> UpdateExpenseAsync(Expense expense);
+    public Task<bool> DeleteExpenseByIdAsync(int id);
 }

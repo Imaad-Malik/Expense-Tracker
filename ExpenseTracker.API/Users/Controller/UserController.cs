@@ -74,4 +74,11 @@ public class UserController : ControllerBase
         var deletedUser = await _service.DeleteAsync(id);
         return Ok(deletedUser);
     }
+
+    [HttpDelete("{userId}/expenses/{id}")]
+    public async Task<ActionResult<UserResponseDto>> DeleteExpense(int userId, int id)
+    {
+        var deletedExpense = await _service.DeleteExpenseByUserIdAsync(id, userId);
+        return Ok(deletedExpense);
+    }
 }
