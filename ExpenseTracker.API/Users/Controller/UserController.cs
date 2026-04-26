@@ -61,6 +61,13 @@ public class UserController : ControllerBase
         return Ok(updatedUser);
     }
 
+    [HttpPut("{userId}/expenses/{id}")]
+    public async Task<ActionResult<ExpenseResponseDto>> UpdateExpense(ExpenseUpdateDto expense, int userId, int id)
+    {
+        var updatedExpense = await _service.UpdateExpenseByUserIdAsync(expense, userId, id);
+        return Ok(updatedExpense);
+    }
+
     [HttpDelete("{id}")]
     public async Task<ActionResult<UserResponseDto>> DeleteUser(int id)
     {

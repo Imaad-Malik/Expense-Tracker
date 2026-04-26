@@ -25,9 +25,21 @@ public class UserRepository : IUserRepository
         return await _context.Users.FirstOrDefaultAsync(e => e.Id == id);
     }
 
+    public async Task<Expense?> GetExpenseByIdAsync(int id)
+    {
+        return await _context.Expenses.FirstOrDefaultAsync(e => e.Id == id);
+    }
+
     public async Task<Expense> CreateExpenseAsync(Expense expense)
     {
         _context.Expenses.Add(expense);
+        await _context.SaveChangesAsync();
+        return expense;
+    }
+
+    public async Task<Expense> UpdateExpenseAsync(Expense expense)
+    {
+        _context.Expenses.Update(expense);
         await _context.SaveChangesAsync();
         return expense;
     }

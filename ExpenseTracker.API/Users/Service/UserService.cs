@@ -14,14 +14,12 @@ public class UserService : IUserService
         _repository = repository;
     }
     
-    // GET ALL USERS
     public async Task<List<UserResponseDto>> GetAllUsersAsync()
     {
         var users = await _repository.GetAllUsersAsync();
         return users.Select(MapToDto).ToList();
     }
     
-    // GET USER BY ID
     public async Task<UserResponseDto?> GetUserByIdAsync(int id)
     {
         var user = await _repository.GetUserByIdAsync(id);
@@ -51,8 +49,36 @@ public class UserService : IUserService
                 expense.Date
         );
     }
+
+    public async Task<ExpenseResponseDto?> UpdateExpenseByUserIdAsync(ExpenseUpdateDto dto, int userId, int expenseId)
+    {
+        var user = await _repository.GetUserByIdAsync(userId);
+        if (user == null) return null;
+        
+        var expense = await _repository.GetExpenseByIdAsync(expenseId);
+        if (expense == null) return null;
+        
+        // Check if user has ownership of this expense
+        if (user.Id != expense.UserId)
+        {
+            return null;
+        }
+
+        expense.ExpenseName = dto.ExpenseName;
+        expense.Amount = dto.Amount;
+        expense.Date = dto.Date;
+
+        await _repository.UpdateExpenseAsync(expense);
+
+        return new ExpenseResponseDto(
+            expense.UserId,
+            expense.Id,
+            expense.ExpenseName,
+            expense.Amount,
+            expense.Date
+        );
+    }
     
-    // CREATE USER
     public async Task<UserResponseDto> CreateUserAsync(UserCreateDto user)
     {
         var newUser = new User(
@@ -63,8 +89,7 @@ public class UserService : IUserService
         var createdUser = await _repository.CreateUserAsync(newUser);
         return MapToDto(createdUser);
     }
-
-    // UPDATE USER
+    
     public async Task<UserResponseDto?> UpdateUserAsync(UserUpdateDto updatedUser, int id)
     {
         var userToUpdate = await _repository.GetUserByIdAsync(id);
@@ -77,7 +102,6 @@ public class UserService : IUserService
         return MapToDto(userToUpdate);
     }
     
-    // DELETE USER
     public async Task<bool> DeleteAsync(int id)
     {
         return await _repository.DeleteUserByIdAsync(id);
@@ -96,8 +120,7 @@ public class UserService : IUserService
         )).ToList();
     }
     
-
-    // Mapper
+    
     public UserResponseDto MapToDto(User user)
     {
         return new UserResponseDto(
