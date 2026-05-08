@@ -2,16 +2,19 @@ using ExpenseTracker.API.Expenses;
 using ExpenseTracker.API.Expenses.Dto;
 using ExpenseTracker.API.Users.Dto;
 using ExpenseTracker.API.Users.Repository;
+using Microsoft.AspNetCore.Identity;
 
 namespace ExpenseTracker.API.Users.Service;
 
 public class UserService : IUserService
 {
     private readonly IUserRepository _repository;
+    private readonly PasswordHasher<User> _passwordHasher;
 
     public UserService(IUserRepository repository)
     {
         _repository = repository;
+        _passwordHasher = new PasswordHasher<User>();
     }
     
     public async Task<List<UserResponseDto>> GetAllUsersAsync()
@@ -98,7 +101,12 @@ public class UserService : IUserService
     {
         var newUser = new User(
             user.Email,
-            user.PasswordHash
+            ""
+        );
+
+        newUser.PasswordHash = _passwordHasher.HashPassword(
+            newUser,
+            user.Password
         );
 
         var createdUser = await _repository.CreateUserAsync(newUser);

@@ -29,6 +29,12 @@ public class UserRepository : IUserRepository
     {
         return await _context.Expenses.FirstOrDefaultAsync(e => e.Id == id);
     }
+    
+    public async Task<User?> GetUserByEmailAsync(string email)
+    {
+        return await _context.Users
+            .FirstOrDefaultAsync(u => u.Email == email);
+    }
 
     public async Task<Expense> CreateExpenseAsync(Expense expense)
     {
@@ -53,8 +59,7 @@ public class UserRepository : IUserRepository
         await _context.SaveChangesAsync();
         return true;
     }
-
-    // CREATE USER 
+    
     public async Task<User> CreateUserAsync(User user)
     {
         _context.Users.Add(user);
@@ -62,7 +67,6 @@ public class UserRepository : IUserRepository
         return user;
     }
     
-    // UPDATE USER
     public async Task<User> UpdateUserAsync(User user)
     {
         _context.Users.Update(user);

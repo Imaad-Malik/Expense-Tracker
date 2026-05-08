@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace ExpenseTracker.API.Expenses.Controller;
 
 [ApiController]
-// This makes the route ".../expense"
 [Route("[controller]")]
 public class ExpenseController : Microsoft.AspNetCore.Mvc.Controller
 {
