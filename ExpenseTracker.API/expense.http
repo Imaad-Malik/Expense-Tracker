@@ -1,1 +1,31 @@
-﻿GET http://localhost:5056
+﻿### 1. Login to get a token
+POST http://localhost:5056/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "testetesting2@email.com",
+  "password": "emailpassword"
+}
+
+> {%
+    client.global.set("auth_token", response.body.token);
+    client.log("Token captured successfully!");
+%}
+
+### 2. Test Access (Should be 200 OK)
+GET http://localhost:5056/api/auth/test
+Authorization: Bearer {{auth_token}}
+
+### 3. Create an Expense (Should be 200 OK)
+POST http://localhost:5056/expense
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+
+{
+  "expenseName": "Automated Test Expense",
+  "amount": 10.99,
+  "date": "2024-06-08"
+}
+
+### 4. Try Accessing WITHOUT Token (Should be 401 Unauthorized)
+GET http://localhost:5056/expense
