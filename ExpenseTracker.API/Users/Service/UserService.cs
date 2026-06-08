@@ -39,7 +39,7 @@ public class UserService : IUserService
             dto.ExpenseName,
             dto.Amount,
             dto.Date,
-            dto.UserId
+            userId
         );
         
         var expense = await _repository.CreateExpenseAsync(newExpense);

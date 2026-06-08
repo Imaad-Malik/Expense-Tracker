@@ -12,8 +12,9 @@ using Microsoft.IdentityModel.Tokens;
 var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-var jwtSettings = builder.Configuration.GetSection("jwt");
-var key = Encoding.ASCII.GetBytes(jwtSettings["Key"]);
+var jwtSettings = builder.Configuration.GetSection("Jwt");
+var keyString = jwtSettings["Key"] ?? throw new Exception("JWT Key is missing in configuration");
+var key = Encoding.ASCII.GetBytes(keyString);
 
 // Database
 builder.Services.AddDbContext<ExpenseContext>(options => 
@@ -42,9 +43,9 @@ builder.Services.AddAuthentication(options =>
         };
     });
 
-// Allows Controller Usage
 builder.Services.AddControllers();
 
+// Dependency Injection
 builder.Services.AddScoped<IExpenseService, ExpenseService>();
 builder.Services.AddScoped<IExpenseRepository, ExpenseRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
@@ -54,9 +55,10 @@ builder.Services.AddScoped<TokenService>();
 var app = builder.Build();
 
 app.UseHttpsRedirection();
-app.UseAuthorization();
-app.MapControllers();
+
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.MapControllers();
 
 app.Run();

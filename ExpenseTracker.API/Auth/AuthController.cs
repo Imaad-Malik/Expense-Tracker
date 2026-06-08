@@ -15,10 +15,7 @@ public class AuthController : ControllerBase
     private readonly TokenService _tokenService;
     private readonly PasswordHasher<User> _passwordHasher;
 
-    public AuthController(
-        IUserRepository repository,
-        TokenService tokenService
-    )
+    public AuthController(IUserRepository repository, TokenService tokenService)
     {
         _repository = repository;
         _tokenService = tokenService;
@@ -30,8 +27,7 @@ public class AuthController : ControllerBase
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginRequest request)
     {
-        if (string.IsNullOrWhiteSpace(request.Email) ||
-            string.IsNullOrWhiteSpace(request.Password))
+        if (string.IsNullOrWhiteSpace(request.Email) || string.IsNullOrWhiteSpace(request.Password))
         {
             return BadRequest("Email and password are required");
         }

@@ -1,5 +1,7 @@
 ﻿using ExpenseTracker.API.Data;
+using ExpenseTracker.API.Users;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace ExpenseTracker.API.Expenses.Repository;
 
@@ -15,6 +17,13 @@ public class ExpenseRepository : IExpenseRepository
     public async Task<List<Expense>> GetAllAsync()
     {
         return await _context.Expenses.ToListAsync();
+    }
+
+    public async Task<List<Expense>> GetExpesnesByUserId(int userId)
+    {
+        return await _context.Expenses
+            .Where(e => e.UserId == userId)
+            .ToListAsync();
     }
 
     public async Task<Expense?> GetByIdAsync(int id)

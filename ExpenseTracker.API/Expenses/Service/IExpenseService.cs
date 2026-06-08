@@ -5,10 +5,9 @@ namespace ExpenseTracker.API.Expenses.Service;
 public interface IExpenseService
 {
     Task<List<ExpenseResponseDto>> GetAllAsync();
-    // ? means method can return null
-    // It's possible no expense is found by that id, so ? is used for that possibility
-    Task<ExpenseResponseDto?> GetByIdAsync(int id);
-    Task<ExpenseResponseDto> Create(ExpenseCreateDto expense);
-    Task<ExpenseResponseDto?> Update(ExpenseUpdateDto updatedExpense, int id);
-    Task<bool> Delete(int id);
+    Task<List<ExpenseResponseDto>> GetAllByUserId(int userId);
+    Task<ExpenseResponseDto?> GetByIdAsync(int id, int userId);
+    Task<ExpenseResponseDto> Create(ExpenseCreateDto expense, int userId);
+    Task<ExpenseResponseDto?> Update(ExpenseUpdateDto updatedExpense, int id, int userId);
+    Task<bool> Delete(int id, int userId);
 }
