@@ -14,7 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 var jwtSettings = builder.Configuration.GetSection("Jwt");
 var keyString = jwtSettings["Key"] ?? throw new Exception("JWT Key is missing in configuration");
-var key = Encoding.ASCII.GetBytes(keyString);
+var key = Encoding.UTF8.GetBytes(jwtSettings["Key"]);
 
 // Database
 builder.Services.AddDbContext<ExpenseContext>(options => 
@@ -39,7 +39,9 @@ builder.Services.AddAuthentication(options =>
 
             ValidIssuer = jwtSettings["Issuer"],
             ValidAudience = jwtSettings["Audience"],
-            IssuerSigningKey = new SymmetricSecurityKey(key)
+            IssuerSigningKey = new SymmetricSecurityKey(key),
+            
+            ClockSkew = TimeSpan.Zero
         };
     });
 

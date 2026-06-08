@@ -57,8 +57,7 @@ public class AuthController : ControllerBase
 
         return Ok(new { token });
     }
-
-    // TEST (protected)
+    
     [Authorize]
     [HttpGet("test")]
     public IActionResult Test()
