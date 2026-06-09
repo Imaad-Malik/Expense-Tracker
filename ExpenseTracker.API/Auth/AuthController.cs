@@ -22,6 +22,23 @@ public class AuthController : ControllerBase
         _passwordHasher = new PasswordHasher<User>();
     }
 
+    [AllowAnonymous]
+    [HttpPost("register")]
+    public async Task<IActionResult> Register([FromBody] RegisterRequest request)
+    {
+        if (await _repository.GetUserByEmailAsync(request.Email) != null)
+        {
+            return BadRequest("User with this email already exists");
+        }
+
+        var user = new User(request.Email, "");
+        user.PasswordHash = _passwordHasher.HashPassword(user, request.Password);
+
+        await _repository.CreateUserAsync(user);
+
+        return Ok("User registered successfully");
+    }
+    
     // LOGIN
     [AllowAnonymous]
     [HttpPost("login")]

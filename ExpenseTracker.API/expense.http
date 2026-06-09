@@ -1,4 +1,13 @@
-﻿### 1. Login to get a token
+﻿### 0. Register a new user
+POST http://localhost:5056/api/auth/register
+Content-Type: application/json
+
+{
+  "email": "newuser@example.com",
+  "password": "securepassword123"
+}
+
+### 1. Login to get a token
 POST http://localhost:5056/api/auth/login
 Content-Type: application/json
 
